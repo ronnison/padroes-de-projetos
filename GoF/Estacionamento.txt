@@ -1,0 +1,31 @@
+import java.util.Hashtable;
+
+class Estacionamnento {
+    
+    private Hashtable<String, String> veiculo;
+    
+    public Estacionamnento(){
+        this.veiculo = new Hashtable();
+    }
+    
+    public void estacionar(String placa, String modelo){
+        this.veiculo.put(placa, modelo);
+    }
+    
+    public String toString(){
+        return "Veículo estacionado: " + this.veiculo;
+    }
+    
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		Estacionamnento e = new Estacionamnento();
+		e.estacionar("TCP-7030","UNO");
+		e.estacionar("BNF-4501","GOL");
+		e.estacionar("HHH-4791","CORSA");
+		
+		System.out.println(e.toString());
+	}
+}

@@ -1,0 +1,104 @@
+
+interface Canal {
+    public String getMensagem();
+    public void send(String str);
+    public String receive();
+}
+
+class CanalDecorator implements Canal{
+    
+    public Canal canal;
+    
+    public CanalDecorator (Canal c1) {
+        this.canal = c1;
+    }
+    
+    public String getMensagem() {
+        return this.canal.getMensagem();
+    }
+    public void send(String str){
+        this.canal.send(str);
+    }
+    public String receive(){
+        return this.canal.receive();
+    }
+}
+
+class ZipCanal extends CanalDecorator{
+    
+    public ZipCanal(Canal canal) {
+        super(canal);
+    }
+    
+    public void send(String str){
+        System.out.println("Compactando mensagem");
+        super.canal.send(str);
+    }
+    
+    public String receive(){
+        String msg = super.canal.receive();
+        return "Descompactando mensagem: " + msg;
+    }
+}
+
+
+class TcpCanal implements Canal {
+    public String getMensagem(){
+        return "mensagem TCP";
+    }
+    public void send(String str){
+        System.out.println("Mensagem TCP enviada: " + str);
+    }
+    public String receive(){
+        return "Mensagem TCP recebida";
+    }
+}
+
+class UdpCanal implements Canal {
+    public String getMensagem(){
+        return "mensagem UDP";
+    }
+    public void send(String str) {
+        System.out.println("Mensagem UDP enviada: "  + str);
+    }
+    public String receive() {
+        return "Menagem UDP enviada";
+    }
+}
+
+class CanalFactory {
+    public static Canal create(int tipo) {
+        if(tipo == 1){
+            System.out.println("Criando objeto TcpCanal");
+            return new TcpCanal();
+        }
+        System.out.println("Criando objeto UdpCanal");
+        return new UdpCanal();
+    }
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		Canal c1 = CanalFactory.create(1);
+		/*Canal c2 = CanalFactory.create(2);
+		
+		System.out.println(c1.getMensagem());
+		System.out.println(c2.getMensagem());*/
+		
+		Canal c = new ZipCanal(c1);
+		
+		c.send("Hello World!");
+		String s1 = c.receive();
+		System.out.println(s1);
+	}
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+abstract class Funcionario {
+    protected double salario;
+    
+    public abstract double calcDescontoPrevidencia();
+    public abstract double calcDescontoPlanoSaude();
+    public abstract double calcOutrosDescontos();
+    
+    //template method
+    public double calcSalarioLiquido(){
+        double prev = this.calcDescontoPrevidencia();
+        double saude = this.calcDescontoPlanoSaude();
+        double outros = this.calcOutrosDescontos();
+        
+        return this.salario - prev - saude - outros;
+    }
+}
+
+class FuncionarioCLT extends Funcionario {
+    public FuncionarioCLT(double sal) {
+        this.salario = sal;
+    }
+    
+    public double calcDescontoPrevidencia(){
+        return this.salario * 0.09;
+    }
+    
+    public double calcDescontoPlanoSaude(){
+        return 200.0;
+    }
+    
+    public double calcOutrosDescontos(){
+        return 50.0;
+    }
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		FuncionarioCLT f1 = new FuncionarioCLT(1412.00);
+		double salLiq = f1.calcSalarioLiquido();
+		System.out.println("O salario líquido é: " + salLiq);
+		System.out.println("O desconto previdencia é: " + f1.calcDescontoPrevidencia());
+		System.out.println("O desconto plano saude é: " + f1.calcDescontoPlanoSaude());
+		System.out.println("O desconto outros descontos é: " + f1.calcOutrosDescontos());
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

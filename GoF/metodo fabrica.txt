@@ -1,0 +1,38 @@
+
+interface Canal {
+    public String getMensagem();
+}
+
+class TcpCanal implements Canal {
+    public String getMensagem(){
+        return "mensagem TCP";
+    }
+}
+
+class UdpCanal implements Canal {
+    public String getMensagem(){
+        return "mensagem UDP";
+    }
+}
+
+class CanalFactory {
+    public static Canal create(int tipo) {
+        if(tipo == 1){
+            System.out.println("Criando objeto TcpCanal");
+            return new TcpCanal();
+        }
+        System.out.println("Criando objeto UdpCanal");
+        return new UdpCanal();
+    }
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		Canal c1 = CanalFactory.create(1);
+		Canal c2 = CanalFactory.create(2);
+		
+		System.out.println(c1.getMensagem());
+		System.out.println(c2.getMensagem());
+	}
+}

@@ -1,0 +1,72 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+interface Observer {
+    public void update(Subject s);
+}
+
+class Subject {
+    private List<Observer> observadores = new ArrayList<Observer>();
+    
+    public void addObserver(Observer ob){
+        observadores.add(ob);
+    }
+    
+    public void removeObserver(Observer ob){
+        observadores.remove(ob);
+    }
+    
+    public void notifyObservers(){
+        Iterator<Observer> itmalia = observadores.iterator();
+        while(itmalia.hasNext()){
+            Observer ob = itmalia.next();
+            ob.update(this);
+        }
+    }
+}
+
+class Temperatura extends Subject {
+    private double temp;
+    
+    public double getTemp(){
+        return this.temp;
+    }
+    
+    public void setTemp(double temp){
+        this.temp = temp;
+        this.notifyObservers();
+    }
+}
+
+class TermometroCelsius implements Observer{
+    
+    public void update(Subject s){
+        double temp = ((Temperatura) s).getTemp();
+        System.out.println("A Temperatura em celsius é: " + temp);
+    }
+    
+}
+
+class TermometroKelvin implements Observer{
+    
+    public void update(Subject s){
+        double temp = ((Temperatura) s).getTemp();
+        temp += 273;
+        System.out.println("A temperatura em Kelvin é: " + temp);
+    }
+    
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		Temperatura t = new Temperatura();
+		TermometroCelsius tc = new TermometroCelsius();
+		TermometroKelvin tk = new TermometroKelvin();
+		t.addObserver(tc);
+		t.addObserver(tk);
+		t.setTemp(100.0);
+		t.setTemp(54.7);
+	}
+}

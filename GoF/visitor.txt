@@ -1,0 +1,85 @@
+import java.util.List;
+import java.util.ArrayList;
+
+abstract class Veiculo {
+    private String placa;
+    protected double imposto;
+    
+    public Veiculo(String placa){
+        this.placa = placa;
+    }
+    
+    public String getPlaca(){
+        return this.placa;
+    }
+    
+    public double getImposto(){
+        return this.imposto;
+    }
+    
+    abstract void accept(Visitor v);
+}
+
+class Carro extends Veiculo {
+    public Carro(String placa){
+        super(placa);
+        this.imposto = 0.5;
+    }
+    
+    public void accept(Visitor v){
+        v.visit(this);
+    }
+}
+
+class Onibus extends Veiculo{
+    public Onibus(String placa){
+        super(placa);
+        this.imposto = 0.9;
+    }
+    
+    public void accept(Visitor v){
+        v.visit(this);
+    }
+}
+
+interface Visitor {
+    void visit(Carro c);
+    void visit(Onibus o);
+}
+
+class PrintVisitor implements Visitor{
+    public void visit(Carro c) {
+        System.out.println("As informações do Carro são: " + c.getPlaca());
+    }
+    public void visit(Onibus o){
+        System.out.println("As informações do Onibus são: " + o.getPlaca());
+    }
+}
+
+class PrintImpostoVisitor implements Visitor {
+    public void visit(Carro c) {
+        System.out.println("O imposto do carro é: " + c.getImposto());
+    }
+    
+    public void visit(Onibus o) {
+        System.out.println("O imposto do onibus é: " + o.getImposto());
+    }
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		List<Veiculo> lista = new ArrayList<Veiculo>();
+		lista.add(new Carro("QWE-1234"));
+		lista.add(new Onibus("ABC-3465"));
+		lista.add(new Carro("TRE-6534"));
+		lista.add(new Onibus("GFD-4678"));
+		
+		PrintVisitor visitante = new PrintVisitor();
+		PrintImpostoVisitor piv = new PrintImpostoVisitor();
+		for(Veiculo v : lista){
+		    v.accept(visitante);
+		    v.accept(piv);
+		}
+	}
+}

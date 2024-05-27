@@ -1,0 +1,60 @@
+class MyList {
+    
+    private SortStrategy strategy;
+    private int[] lista;
+    
+    public MyList(int[] lista){
+        this.lista = lista;
+        this.strategy = new QuickSort();
+    }
+    
+    public void setSortStrategy(SortStrategy strategy) {
+        this.strategy = strategy;
+    }
+    
+    public int[] getLista(){
+        return this.lista;
+    }
+    
+    public String toString(){
+        String str = "";
+        for(int i : this.lista) {
+            str += i + ", ";
+        }
+        return str;
+    }
+    
+    public void sort(){
+        strategy.sort(this);
+    }
+}
+
+interface SortStrategy {
+    public void sort(MyList lista);
+}
+
+class QuickSort implements SortStrategy{
+    public void sort(MyList lista) {
+        System.out.println("Ordena Quickmente " + lista.toString());
+    }
+}
+
+class ShellSort implements SortStrategy{
+    public void sort(MyList lista){
+        System.out.println("Ordena Shellmente " + lista.toString());
+    }
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		SortStrategy s1 = new QuickSort();
+		SortStrategy s2 = new ShellSort();
+		
+		int[] lista1 = {2,3,45,6,7,5};
+		MyList ml = new MyList(lista1);
+		ml.sort();
+		ml.setSortStrategy(s2);
+		ml.sort();
+	}
+}
